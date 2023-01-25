@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab08/services/auth_services.dart';
 
 class register extends StatefulWidget {
   const register({super.key});
@@ -10,8 +11,8 @@ class register extends StatefulWidget {
 class _registerState extends State<register> {
   final _formkey = GlobalKey<FormState>();
   TextEditingController _controller = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _paswordController = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +24,21 @@ class _registerState extends State<register> {
        child: ListView(
         children: [
           TextFormField(
-            controller: _emailController,
+            controller: _email,
             decoration: InputDecoration(labelText: "Email"),
           ),
           TextFormField(
-            controller: _paswordController,
+            controller: _password,
             decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
           ),
-          ElevatedButton(onPressed: () {}, child: const Text("Login")),
+
+          ElevatedButton(onPressed: () {
+            
+            AuthService.registerUser(_email.text, _password.text).then((value){
+              Navigator.pop(context);
+            });
+          }, child: const Text("Login")),
           ElevatedButton(onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const register()));
           }, child: const Text("Register"))
